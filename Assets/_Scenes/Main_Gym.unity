@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
+  m_IndirectSpecularColor: {r: 0.4366756, g: 0.48427135, b: 0.56452316, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -313,15 +313,11 @@ Transform:
   - {fileID: 1489741069}
   - {fileID: 848434571}
   m_Father: {fileID: 0}
-<<<<<<< HEAD
 
   m_RootOrder: 5
 
   m_RootOrder: 6
 
-=======
-  m_RootOrder: 4
->>>>>>> parent of d3cafc8... changed script and gym
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &78722551
 GameObject:
@@ -539,7 +535,7 @@ Transform:
   m_Children: []
 
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &225246818
 GameObject:
@@ -965,6 +961,83 @@ MeshFilter:
 
   m_GameObject: {fileID: 497439637}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &509417825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 509417826}
+  - component: {fileID: 509417828}
+  - component: {fileID: 509417827}
+  m_Layer: 0
+  m_Name: Capsule
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &509417826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509417825}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 1.51, z: 0}
+  m_LocalScale: {x: 0.5, y: 2, z: 0.8}
+  m_Children: []
+  m_Father: {fileID: 1641120482}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+--- !u!23 &509417827
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509417825}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &509417828
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509417825}
+  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1001 &526387856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1109,7 +1182,7 @@ MeshRenderer:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 75, y: 0, z: 0}
 --- !u!114 &534669906
 MonoBehaviour:
@@ -1245,7 +1318,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 199262136}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-<<<<<<< HEAD
 
 --- !u!1 &619067403
 GameObject:
@@ -1324,8 +1396,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619067403}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-=======
->>>>>>> parent of d3cafc8... changed script and gym
 --- !u!1 &625895767
 
 --- !u!1 &216091916
@@ -1364,7 +1434,6 @@ Transform:
   - {fileID: 1186149223}
   - {fileID: 1613432595}
   m_Father: {fileID: 0}
-<<<<<<< HEAD
   m_RootOrder: 4
 
   m_LocalPosition: {x: 12.5, y: 3.25, z: 0}
@@ -1373,9 +1442,6 @@ Transform:
   m_Father: {fileID: 690781352}
   m_RootOrder: 0
 
-=======
-  m_RootOrder: 3
->>>>>>> parent of d3cafc8... changed script and gym
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &216091918
 BoxCollider:
@@ -1660,16 +1726,12 @@ Transform:
   - {fileID: 2100614163}
   - {fileID: 146572849}
   m_Father: {fileID: 0}
-<<<<<<< HEAD
   m_RootOrder: 6
 
   m_Children: []
   m_Father: {fileID: 785590091}
   m_RootOrder: 1
 
-=======
-  m_RootOrder: 5
->>>>>>> parent of d3cafc8... changed script and gym
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &269482549
 CapsuleCollider:
@@ -1767,7 +1829,7 @@ Transform:
   - {fileID: 761928323}
   - {fileID: 1178307774}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &802308082
 MonoBehaviour:
@@ -1786,6 +1848,7 @@ MonoBehaviour:
     m_Bits: 512
   cam: {fileID: 534669904}
   mover: {fileID: 802308083}
+  focus: {fileID: 0}
 --- !u!114 &802308083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9270,7 +9333,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1836562044}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
 
 --- !u!1 &958056846
 GameObject:
@@ -9349,8 +9411,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 958056846}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-=======
->>>>>>> parent of d3cafc8... changed script and gym
 --- !u!1 &1060929630
 
 
@@ -9445,12 +9505,8 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1841696174}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-<<<<<<< HEAD
 
 --- !u!1 &1181424132
-=======
---- !u!1 &1186149222
->>>>>>> parent of d3cafc8... changed script and gym
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9458,32 +9514,21 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
   - component: {fileID: 1181424133}
   - component: {fileID: 1181424134}
   m_Layer: 0
   m_Name: GameManager
-=======
-  - component: {fileID: 1186149223}
-  m_Layer: 0
-  m_Name: Walls
->>>>>>> parent of d3cafc8... changed script and gym
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
-<<<<<<< HEAD
 --- !u!4 &1181424133
-=======
---- !u!4 &1186149223
->>>>>>> parent of d3cafc8... changed script and gym
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
   m_GameObject: {fileID: 1181424132}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -9507,22 +9552,6 @@ MonoBehaviour:
   player: {fileID: 802308080}
 --- !u!1 &1186149222
 
-=======
-  m_GameObject: {fileID: 1186149222}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 1855198294}
-  - {fileID: 1956289994}
-  - {fileID: 1841696175}
-  - {fileID: 1508909456}
-  - {fileID: 1471085169}
-  m_Father: {fileID: 625895768}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1249269809
->>>>>>> parent of d3cafc8... changed script and gym
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9643,7 +9672,7 @@ Transform:
   m_Children:
   - {fileID: 1822034001}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1457740187
 
@@ -10255,7 +10284,6 @@ Transform:
   m_Father: {fileID: 281748413}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
 
 --- !u!1 &1641120477
 GameObject:
@@ -10405,8 +10433,6 @@ MonoBehaviour:
   isFocus: 0
   player: {fileID: 0}
   hasInteracted: 0
-=======
->>>>>>> parent of d3cafc8... changed script and gym
 --- !u!1001 &1671551462
 PrefabInstance:
   m_ObjectHideFlags: 0
