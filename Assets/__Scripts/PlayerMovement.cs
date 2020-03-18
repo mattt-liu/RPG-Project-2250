@@ -5,8 +5,6 @@ using UnityEngine.AI;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
-
-
 public class PlayerMovement : MonoBehaviour
 {
 
