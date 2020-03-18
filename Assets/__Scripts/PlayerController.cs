@@ -34,7 +34,6 @@ public class PlayerController : MonoBehaviour
         // Moving player
 
         if (Input.GetMouseButtonDown(0))
-            if (Input.GetMouseButtonDown(1))
             {
 
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -60,7 +59,7 @@ public class PlayerController : MonoBehaviour
             animate.Move();
         }
         // If we press right mouse
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         {
             // We create a ray
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
