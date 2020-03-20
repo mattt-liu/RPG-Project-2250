@@ -135,7 +135,6 @@ public class PlayerController : MonoBehaviour
         _newPos = _curPos;
         _walking = false;
         mover.StopMoving();
-        Animator.S
     }
 
     public bool getWalking()
