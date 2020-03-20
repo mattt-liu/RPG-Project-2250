@@ -97,8 +97,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Face
+    second: {fileID: 2100000, guid: 962d7d52964b243c89f314c6505d3677, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Skin
-    second: {fileID: 2100012, guid: f7a152596e0544430bc477088f15f010, type: 3}
+    second: {fileID: 2100000, guid: 7f93d226545f348be961f495476c7d1f, type: 2}
   materials:
     importMaterials: 1
     materialName: 0

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,7 +7,6 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class PlayerMovement : MonoBehaviour
 {
-    Transform target;
 
     public NavMeshAgent agent;
 
@@ -23,22 +22,4 @@ public class PlayerMovement : MonoBehaviour
     {
         agent.SetDestination(point);
     }
-
-    public void Follow(Inter newTarget)
-    {
-        agent.stoppingDistance = newTarget.radius * .5f;
-        agent.updateRotation = false;
-
-        target = newTarget.interactionTransform;
-    }
-
-    // Stop following a target
-    public void StopFollowing()
-    {
-        agent.stoppingDistance = 0f;
-        agent.updateRotation = true;
-
-        target = null;
-    }
-
 }
