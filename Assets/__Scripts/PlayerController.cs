@@ -50,6 +50,9 @@ public class PlayerController : MonoBehaviour
 
         _moving = (_newPos.x != _curPos.x) && (_newPos.z != _curPos.z);
 
+        // UI
+        canvas.GetComponent<SliderJoint2D>();
+
     }
     void LateUpdate()
     {
