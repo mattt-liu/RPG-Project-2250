@@ -16,8 +16,10 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 _curPos;
     private Vector3 _newPos;
-    private bool _moving;
+    private bool _walking;
     private bool _jumping;
+    private bool _punching;
+    private Rigidbody _rb;
 
 
     void Start()
@@ -25,17 +27,20 @@ public class PlayerController : MonoBehaviour
         _curPos = transform.position;
         _newPos = transform.position;
         _jumping = false;
+        _punching = false;
+        _rb = GetComponent<Rigidbody>();
+
         cam = Camera.main;
         mover = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-        // Moving player
+        // ---- Moving player ----
 
         _curPos = transform.position;
 
-            if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
             {
 
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
@@ -46,25 +51,40 @@ public class PlayerController : MonoBehaviour
                     _newPos = hit.point;
                     mover.MoveToPoint(_newPos);
                 }
-            }
+        }
 
-        // Checking for movement
-
-        _moving = (_newPos.x != _curPos.x) && (_newPos.z != _curPos.z);
-
-        // UI
-        canvas.GetComponent<SliderJoint2D>();
         //jumping
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && _punching == false)
         {
+            Stop();
             _jumping = true;
         }
+
+        // punching
+        if (Input.GetKeyDown(KeyCode.Q) && _jumping == false)
+        {
+            Stop();
+            _punching = true;
+        }
+
+        // UI
+        //canvas.GetComponent<SliderJoint2D>();
 
     }
     void LateUpdate()
     {
 
-        // If we press right mouse
+        // ---- Checking for movement -----
+
+        _walking = (_newPos.x != _curPos.x) && (_newPos.z != _curPos.z);
+
+        if (_jumping) // **still not working
+        {
+            _rb.AddForce(Vector3.up * 15f);
+        }
+
+        // If we press left mouse
+        /**
         if (Input.GetMouseButtonDown(0))
         {
             // We create a ray
@@ -81,7 +101,7 @@ public class PlayerController : MonoBehaviour
                 }
             }
 
-        }
+        }*/
     }
     // Set our focus to a new focus
     void SetFocus(Inter newFocus)
@@ -98,6 +118,7 @@ public class PlayerController : MonoBehaviour
         }
 
         newFocus.OnFocused(transform);
+
     }
 
     // Remove our current focus
@@ -109,13 +130,32 @@ public class PlayerController : MonoBehaviour
         focus = null;
         mover.StopFollowing();
     }
-
-    public bool isMoving()
+    void Stop()
     {
-        return _moving;
+        _newPos = _curPos;
+        _walking = false;
+        mover.StopMoving();
+        Animator.S
     }
-    public bool isJumping()
+
+    public bool getWalking()
+    {
+        return _walking;
+    }
+    public void setWalking(bool b)
+    {
+        _walking = b;
+    }
+    public bool getJumping()
     {
         return _jumping;
+    }
+    public bool getPunching()
+    {
+        return _punching;
+    }
+    public void setPunching(bool b)
+    {
+        _punching = b;
     }
 }

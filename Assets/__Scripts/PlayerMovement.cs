@@ -17,11 +17,15 @@ public class PlayerMovement : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    // Update is called once per frame
 
     public void MoveToPoint(Vector3 point)
     {
         agent.SetDestination(point);
+    }
+
+    public void StopMoving()
+    {
+        agent.isStopped = true;
     }
 
     public void Follow(Inter newTarget)
