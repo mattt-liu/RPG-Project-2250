@@ -17,12 +17,14 @@ public class PlayerController : MonoBehaviour
     private Vector3 _curPos;
     private Vector3 _newPos;
     private bool _moving;
+    private bool _jumping;
 
 
     void Start()
     {
         _curPos = transform.position;
         _newPos = transform.position;
+        _jumping = false;
         cam = Camera.main;
         mover = GetComponent<PlayerMovement>();
     }
@@ -52,6 +54,11 @@ public class PlayerController : MonoBehaviour
 
         // UI
         canvas.GetComponent<SliderJoint2D>();
+        //jumping
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _jumping = true;
+        }
 
     }
     void LateUpdate()
@@ -106,5 +113,9 @@ public class PlayerController : MonoBehaviour
     public bool isMoving()
     {
         return _moving;
+    }
+    public bool isJumping()
+    {
+        return _jumping;
     }
 }

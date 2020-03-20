@@ -26,5 +26,13 @@ public class Walking : MonoBehaviour
         {
             animator.SetBool("isWalking", false);
         }
+        if (playerController.isJumping())
+        {
+            animator.SetBool("isJumping", true);
+
+        } else
+        {
+            animator.SetBool("isJumping", false);
+        }
     }
 }
