@@ -17,7 +17,7 @@ public class EnemyMovement : MonoBehaviour
     {
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
-        
+
     }
 
     // Update is called once per frame
