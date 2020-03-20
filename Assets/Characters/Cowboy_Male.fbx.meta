@@ -96,7 +96,17 @@ ModelImporter:
     7400020: CharacterArmature|Walk_Carry
     9500000: //RootNode
     13700000: Body
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face
+    second: {fileID: 2100000, guid: 962d7d52964b243c89f314c6505d3677, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin
+    second: {fileID: 2100000, guid: 281fbac97ec194eecb63bb36c117ed45, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
