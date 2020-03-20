@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Inter : MonoBehaviour
 {
-	public float radius = 3f;
+    public float radius = 3f;
 
 	public Transform interactionTransform;  // The transform from where we interact in case you want to offset it
 
@@ -59,8 +59,9 @@ public class Inter : MonoBehaviour
 
 
 	void OnDrawGizmosSelected()
-	{
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere(transform.position, radius);
-	}
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
+    
 }
