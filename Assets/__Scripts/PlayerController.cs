@@ -5,12 +5,16 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerController : MonoBehaviour
 {
+    [Header("Movement")]
     public LayerMask mask;
     public Camera cam;
     public PlayerMovement mover;
+    public Rigidbody rb;
 
+    [Header("Selection")]
     public Inter focus;
 
+    [Header("Game Content")]
     public GameObject canvas;
     public int currentLevel;
 
@@ -19,7 +23,6 @@ public class PlayerController : MonoBehaviour
     private bool _walking;
     private bool _jumping;
     private bool _punching;
-    private Rigidbody _rb;
 
 
     void Start()
@@ -28,7 +31,7 @@ public class PlayerController : MonoBehaviour
         _newPos = transform.position;
         _jumping = false;
         _punching = false;
-        _rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
 
         cam = Camera.main;
         mover = GetComponent<PlayerMovement>();
@@ -58,6 +61,7 @@ public class PlayerController : MonoBehaviour
         {
             Stop();
             _jumping = true;
+            Debug.Log("Jumped");
         }
 
         // punching
@@ -80,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
         if (_jumping) // **still not working
         {
-            _rb.AddForce(Vector3.up * 15f);
+            rb.AddForce(Vector3.up * 15f);
         }
 
         // If we press left mouse
