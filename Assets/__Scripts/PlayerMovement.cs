@@ -16,10 +16,9 @@ public class PlayerMovement : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
     }
-
-
     public void MoveToPoint(Vector3 point)
     {
+        agent.isStopped = false;
         agent.SetDestination(point);
     }
 

@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private bool _walking;
     private bool _jumping;
     private bool _punching;
+    private bool _kicking;
 
 
     void Start()
@@ -44,31 +45,35 @@ public class PlayerController : MonoBehaviour
         _curPos = transform.position;
 
         if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, 100, mask))
             {
-
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit, 100, mask))
-                {
-                    _newPos = hit.point;
-                    mover.MoveToPoint(_newPos);
-                }
+                _newPos = hit.point;
+                mover.MoveToPoint(_newPos);
+            }
         }
 
         //jumping
-        if (Input.GetKeyDown(KeyCode.Space) && _punching == false)
+        if (Input.GetKeyDown(KeyCode.Space) && _punching == false && _kicking == false)
         {
             Stop();
             _jumping = true;
-            Debug.Log("Jumped");
         }
 
         // punching
-        if (Input.GetKeyDown(KeyCode.Q) && _jumping == false)
+        if (Input.GetKeyDown(KeyCode.Q) && _jumping == false && _kicking == false)
         {
             Stop();
             _punching = true;
+        }
+        // kicking
+        if (Input.GetKeyDown(KeyCode.W) && _jumping == false && _punching == false) 
+        {
+            Stop();
+            _kicking = true;
         }
 
         // UI
@@ -137,8 +142,12 @@ public class PlayerController : MonoBehaviour
     void Stop()
     {
         _newPos = _curPos;
+
         _walking = false;
+
+        mover.MoveToPoint(_curPos);
         mover.StopMoving();
+
     }
 
     public bool getWalking()
@@ -160,5 +169,16 @@ public class PlayerController : MonoBehaviour
     public void setPunching(bool b)
     {
         _punching = b;
+    }
+    public bool getKicking()
+    {
+        return _kicking;
+    }
+    public void setKicking(bool b)
+    {
+        _kicking = b;
+    }
+    public void setJumping(bool b) {
+        _jumping = b;
     }
 }
