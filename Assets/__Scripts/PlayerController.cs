@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerMovement))]
 public class PlayerController : MonoBehaviour
@@ -15,9 +16,18 @@ public class PlayerController : MonoBehaviour
     public Inter focus;
 
     [Header("Game Content")]
-    public GameObject canvas;
+    public GameObject healthBar;
+    public GameObject xpBar;
     public int currentLevel;
 
+    //stats
+    private int _maxHealth;
+    private int _health;
+    private int _xp;
+    Slider healthSlider;
+    Slider xpSlider;
+
+    // movement
     private Vector3 _curPos;
     private Vector3 _newPos;
     private bool _walking;
@@ -28,14 +38,28 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        // physics
         _curPos = transform.position;
         _newPos = transform.position;
         _jumping = false;
         _punching = false;
         rb = GetComponent<Rigidbody>();
 
+        // camera
         cam = Camera.main;
+
+        // script components
         mover = GetComponent<PlayerMovement>();
+
+        // health and stats
+        _xp = 0;
+        _maxHealth = _health = 100;// temp?
+
+        healthSlider = healthBar.GetComponent<Slider>();
+        xpSlider = xpBar.GetComponent<Slider>();
+
+        healthSlider.value = 100;
+        xpSlider.value = 0;
     }
 
     void Update()
@@ -112,7 +136,8 @@ public class PlayerController : MonoBehaviour
 
         }*/
     }
-    // Set our focus to a new focus
+    
+    // ------- Interactions ------------
     void SetFocus(Inter newFocus)
     {
         // If our focus has changed
@@ -129,8 +154,6 @@ public class PlayerController : MonoBehaviour
         newFocus.OnFocused(transform);
 
     }
-
-    // Remove our current focus
     void RemoveFocus()
     {
         if (focus != null)
@@ -139,6 +162,13 @@ public class PlayerController : MonoBehaviour
         focus = null;
         mover.StopFollowing();
     }
+
+    void UpdateHealth()
+    {
+
+    }
+
+    // ------ Movement ---------
     void Stop()
     {
         _newPos = _curPos;
@@ -149,7 +179,6 @@ public class PlayerController : MonoBehaviour
         mover.StopMoving();
 
     }
-
     public bool getWalking()
     {
         return _walking;

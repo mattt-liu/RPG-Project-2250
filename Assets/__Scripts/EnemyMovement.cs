@@ -7,12 +7,12 @@ public class EnemyMovement : MonoBehaviour
 {
     public float lookRadius = 2f;
 
+    private bool _attacking = false;
+    private bool _walking = false;
+
     Transform target;
     NavMeshAgent agent;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
         target = PlayerManager.instance.player.transform;
@@ -20,25 +20,32 @@ public class EnemyMovement : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         float distance = Vector3.Distance(target.position, transform.position);
 
         if (distance <= lookRadius)
         {
+            _walking = true;
             agent.SetDestination(target.position);
 
             if (distance <= agent.stoppingDistance)
             {
                 // Attack the target
                 FaceTarget();    // Face the target
-
-
-
+                _attacking = true;
+            }
+            else
+            {
+                _attacking = false;
             }
         }
+        else
+        {
+            _walking = false;
+        }
     }
+
 
     void FaceTarget()
     {
@@ -46,6 +53,23 @@ public class EnemyMovement : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
     }
+    public bool getAttacking()
+    {
+        return _attacking;
+    }
+    public void setAttacking(bool b)
+    {
+        _attacking = b;
+    }
+    public bool getWalking()
+    {
+        return _walking;
+    }
+    public void setWalking(bool b)
+    {
+        _walking = b;   
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
