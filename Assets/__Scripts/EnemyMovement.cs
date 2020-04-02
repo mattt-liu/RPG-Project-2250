@@ -9,6 +9,7 @@ public class EnemyMovement : MonoBehaviour
 
     public float attackSpeed = 0.25f;
 
+    private bool _attacked = false;
     private bool _attacking = false;
     private bool _walking = false;
 
@@ -38,7 +39,11 @@ public class EnemyMovement : MonoBehaviour
             {
                 // Attack the target
                 FaceTarget();    // Face the target
-                _attacking = true;
+                if (!_attacked)
+                {
+                    StartCoroutine(SetAttackTrue(1 / attackSpeed));
+                    _attacked = true;
+                }
             }
             else
             {
@@ -48,15 +53,6 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             setWalking(false);
-        }
-    }
-    void LateUpdate()
-    {
-        if (_attacking)
-        {
-            _attacking = false;
-            Debug.Log(1 / attackSpeed);
-            StartCoroutine(WaitFor(1 / attackSpeed));
         }
     }
 
@@ -91,10 +87,16 @@ public class EnemyMovement : MonoBehaviour
     {
         _walking = b;   
     }
-    private IEnumerator WaitFor(float seconds)
+    private IEnumerator SetAttackTrue(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         _attacking = true;
+        _attacked = false;
+    }
+    private IEnumerator SetAttackFalse(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        _attacking = false;
     }
     void OnDrawGizmosSelected()
     {
