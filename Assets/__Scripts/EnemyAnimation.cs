@@ -21,30 +21,16 @@ public class EnemyAnimation : MonoBehaviour
         if (enemyController.getWalking())
         {
             animator.SetBool("isWalking", true);
+
         }
         else
         {
             animator.SetBool("isWalking", false);
         }
     }
-    public void StopPunching()
-    {
-        animator.SetBool("isPunching", false);
-        //enemyController.setPunching(false);
-    }
     public void StopWalking()
     {
         animator.SetBool("isWalking", false);
         enemyController.setWalking(false);
-    }
-    public void StopJumping()
-    {
-        animator.SetBool("isJumping", false);
-        //enemyController.setJumping(false);
-    }
-    public void StopKicking()
-    {
-        animator.SetBool("isKicking", false);
-        //enemyController.setKicking(false);
     }
 }
