@@ -1894,7 +1894,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 283626178}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-<<<<<<< HEAD
 --- !u!1 &285656095
 GameObject:
   m_ObjectHideFlags: 0
@@ -2017,8 +2016,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-=======
->>>>>>> cfe391b... Revert "pick ups"
 --- !u!1 &302110152
 GameObject:
   m_ObjectHideFlags: 0
@@ -6723,7 +6720,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1206449107}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-<<<<<<< HEAD
 --- !u!1 &1224364688
 GameObject:
   m_ObjectHideFlags: 0
@@ -6794,9 +6790,6 @@ Light:
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &1227141274
-=======
---- !u!1 &1230483665
->>>>>>> cfe391b... Revert "pick ups"
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
