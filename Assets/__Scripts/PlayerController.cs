@@ -21,6 +21,13 @@ public class PlayerController : MonoBehaviour
     public GameObject xpBar;
     public int currentLevel;
 
+    [Header("Player Stats")]
+    public int maxHealth = 100;
+    public int kickDamage = 15;
+    public int punchDamage = 10;
+    public float kickSpeed = 0.25f;
+    public float punchSpeed = 0.75f;
+
     //stats
     private int _maxHealth;
     private int _health;
@@ -31,22 +38,26 @@ public class PlayerController : MonoBehaviour
     // movement
     private Vector3 _curPos;
     private Vector3 _newPos;
-    private Vector3 _jumpPos;
-    private bool _walking;
-    private bool _jumping;
-    private bool _jumped;
-    private bool _punching;
-    private bool _kicking;
+    private Vector3 _dashPos;
+    private bool _walking = false;
+    private bool _jumping = false;
+    private bool _dashing = false;
+    private bool _dashed = false;
+    private bool _punching = false;
+    private bool _kicking = false;
 
+    // ability cooldowns
+    private bool _punched = false;
+    private bool _canPunch = true;
+    private bool _kicked = false;
+    private bool _canKick = true;
+      
 
     void Start()
     {
         // physics
         _curPos = transform.position;
         _newPos = transform.position;
-        _jumping = false;
-        _jumped = false;
-        _punching = false;
 
         // camera
         cam = Camera.main;
@@ -56,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
         // health and stats
         _xp = 0;
-        _maxHealth = _health = 100;// temp?
+        _maxHealth = _health = maxHealth;
 
         healthSlider = healthBar.GetComponent<Slider>();
         xpSlider = xpBar.GetComponent<Slider>();
@@ -67,48 +78,63 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        // ---- Moving player ----
+    // -------- Moving player ---------
         _curPos = transform.position;
-        if (Input.GetMouseButtonDown(0) && !_jumping)
+        
+        // only allow for 1 action at a time
+        if (!_dashing && !_jumping && !_kicking && !_punching)
         {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit, 100, mask))
+            // walking
+            if (Input.GetMouseButtonDown(0))
             {
-                _newPos = hit.point;
-                mover.MoveToPoint(_newPos);
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, 100, mask))
+                {
+                    _newPos = hit.point;
+                    mover.MoveToPoint(_newPos);
+                }
+            }
+            // jumping
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Stop();
+                _jumping = true;
+            }
+            // punching
+            if (_canPunch && Input.GetKeyDown(KeyCode.Q))
+            {
+                Stop();
+                _punching = true;
+                _punched = true;
+            }
+            // kicking
+            if (_canKick && Input.GetKeyDown(KeyCode.W))
+            {
+                Stop();
+                _kicking = true;
+                _kicked = true;
+            }
+            //dashing
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                Stop();
+                _dashing = true;
             }
         }
-        //jumping
-        if (Input.GetKeyDown(KeyCode.Space) && !_punching && !_kicking)
-        {
-            Stop();
-            _jumping = true;
-        }
-        // punching
-        if (Input.GetKeyDown(KeyCode.Q) && !_jumping && !_kicking)
-        {
-            Stop();
-            _punching = true;
-        }
-        // kicking
-        if (Input.GetKeyDown(KeyCode.W) && !_jumping && !_punching) 
-        {
-            Stop();
-            _kicking = true;
-        }
 
+    // -------- Check stats --------
         UpdateHealth();
     }
     void FixedUpdate()
     {
-        if (_jumping) 
+        if (_dashing) 
         {
-            if (_jumped)
+            if (_dashed)
             {
-                _jumped = false;
-                _jumping = false;
+                _dashed = false;
+                _dashing = false;
 
                 mover.setAgent(true);
                 Stop();
@@ -121,20 +147,20 @@ public class PlayerController : MonoBehaviour
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, 100, mask))
                 {
-                    _jumpPos = hit.point;
+                    _dashPos = hit.point;
                 }
 
-                _jumped = true;
+                _dashed = true;
 
                 mover.setAgent(false);
 
                 float maxDist = 5f;
 
-                float dist = Mathf.Sqrt(Mathf.Pow((_jumpPos.x - transform.position.x), 2f) + Mathf.Pow((_jumpPos.z - transform.position.z), 2f));
+                float dist = Mathf.Sqrt(Mathf.Pow((_dashPos.x - transform.position.x), 2f) + Mathf.Pow((_dashPos.z - transform.position.z), 2f));
 
                 dist = dist > maxDist ? maxDist : dist;
 
-                Vector3 direction = (_jumpPos - transform.position).normalized * dist;
+                Vector3 direction = (_dashPos - transform.position).normalized * dist;
 
                 transform.position += direction;
 
@@ -150,30 +176,24 @@ public class PlayerController : MonoBehaviour
     {
 
         // ---- Checking for movement -----
-        if (!_jumping)
+        if (!_dashing)
         {
             _walking = (_newPos.x != _curPos.x) && (_newPos.z != _curPos.z);
         }
 
-        // If we press left mouse
-        /**
-        if (Input.GetMouseButtonDown(0))
+        // ---- ability cooldowns
+        if (_punched)
         {
-            // We create a ray
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            // If the ray hits
-            if (Physics.Raycast(ray, out hit, 100))
-            {
-                Inter interactable = hit.collider.GetComponent<Inter>();
-                if (interactable != null)
-                {
-                    SetFocus(interactable);
-                }
-            }
-
-        }*/
+            _canPunch = false;
+            _punched = false;
+            StartCoroutine(punchCooldown(1 / punchSpeed));
+        }
+        if (_kicked)
+        {
+            _canKick = false;
+            _kicked = false;
+            StartCoroutine(kickCooldown(1 / kickSpeed));
+        }
     }
     
     // ------- Interactions ------------
@@ -256,9 +276,15 @@ public class PlayerController : MonoBehaviour
     public void setJumping(bool b) {
         _jumping = b;
     }
-    private void OnDrawGizmos()
+
+    private IEnumerator punchCooldown(float seconds)
     {
-
-
+        yield return new WaitForSeconds(seconds);
+        _canPunch = true;
+    }
+    private IEnumerator kickCooldown(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        _canKick = true;
     }
 }

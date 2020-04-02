@@ -7,13 +7,15 @@ public class EnemyMovement : MonoBehaviour
 {
     public float lookRadius = 2f;
 
+    [Header("Stats")]
     public float attackSpeed = 0.25f;
+    public int _health = 100;
+    public int _damage = 10;
 
     private bool _attacked = false;
     private bool _attacking = false;
     private bool _walking = false;
 
-    private int _health = 100; //temp
 
     Transform target;
     NavMeshAgent agent;
@@ -22,9 +24,7 @@ public class EnemyMovement : MonoBehaviour
     {
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
-        
     }
-
     void Update()
     {
         float distance = Vector3.Distance(target.position, transform.position);
@@ -56,7 +56,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-
+    // ----------------
     void FaceTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -65,7 +65,7 @@ public class EnemyMovement : MonoBehaviour
     }
     public int getDamage()
     {
-        return 10; //temp
+        return _damage;
     }
     public void takeDamage(int dmg)
     {
