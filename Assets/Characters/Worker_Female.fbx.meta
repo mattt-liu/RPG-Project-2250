@@ -94,7 +94,22 @@ ModelImporter:
     7400020: CharacterArmature|Walk_Carry
     9500000: //RootNode
     13700000: Body
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Face
+    second: {fileID: 2100006, guid: 0269090d1ec2143bf890718e2e71ec50, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Hair
+    second: {fileID: 2100002, guid: c119e0f3074b64fef92874a03734cc22, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin
+    second: {fileID: 2100012, guid: f7a152596e0544430bc477088f15f010, type: 3}
   materials:
     importMaterials: 1
     materialName: 0
@@ -112,7 +127,7 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    importAnimatedCustomProperties: 0
+    importAnimatedCustomProperties: 1
     importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
