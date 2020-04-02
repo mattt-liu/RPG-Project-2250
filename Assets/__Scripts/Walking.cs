@@ -39,15 +39,36 @@ public class Walking : MonoBehaviour
         {
             animator.SetBool("isPunching", true);
         }
+        else {
+            animator.SetBool("isPunching", false);
+        }
+        if (playerController.getKicking())
+        {
+            animator.SetBool("isKicking", true);
+        }
+        else
+        {
+            animator.SetBool("isKicking", false);
+        }
     }
-    void StopPunching()
+    public void StopPunching()
     {
         animator.SetBool("isPunching", false);
         playerController.setPunching(false);
     }
-    void StopWalking()
+    public void StopWalking()
     {
         animator.SetBool("isWalking", false);
-        playerController.setPunching(false);
+        playerController.setWalking(false);
+    }
+    public void StopJumping()
+    {
+        animator.SetBool("isJumping", false);
+        playerController.setJumping(false);
+    }
+    public void StopKicking()
+    {
+        animator.SetBool("isKicking", false);
+        playerController.setKicking(false);
     }
 }

@@ -60,6 +60,12 @@ public class Inter : MonoBehaviour
 
 	void OnDrawGizmosSelected()
     {
+
+        if(interactionTransform==null)
+        {
+			interactionTransform = transform;
+
+		}
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, radius);
     }
