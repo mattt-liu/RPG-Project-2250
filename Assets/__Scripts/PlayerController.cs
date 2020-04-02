@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     public Camera cam;
     public PlayerMovement mover;
     public Rigidbody rb;
+    public CharacterController controller;
 
     [Header("Selection")]
     public Inter focus;
@@ -30,8 +31,10 @@ public class PlayerController : MonoBehaviour
     // movement
     private Vector3 _curPos;
     private Vector3 _newPos;
+    private Vector3 _jumpPos;
     private bool _walking;
     private bool _jumping;
+    private bool _jumped;
     private bool _punching;
     private bool _kicking;
 
@@ -42,8 +45,8 @@ public class PlayerController : MonoBehaviour
         _curPos = transform.position;
         _newPos = transform.position;
         _jumping = false;
+        _jumped = false;
         _punching = false;
-        rb = GetComponent<Rigidbody>();
 
         // camera
         cam = Camera.main;
@@ -65,10 +68,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // ---- Moving player ----
-
         _curPos = transform.position;
-
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !_jumping)
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -79,41 +80,79 @@ public class PlayerController : MonoBehaviour
                 mover.MoveToPoint(_newPos);
             }
         }
-
         //jumping
-        if (Input.GetKeyDown(KeyCode.Space) && _punching == false && _kicking == false)
+        if (Input.GetKeyDown(KeyCode.Space) && !_punching && !_kicking)
         {
             Stop();
             _jumping = true;
         }
-
         // punching
-        if (Input.GetKeyDown(KeyCode.Q) && _jumping == false && _kicking == false)
+        if (Input.GetKeyDown(KeyCode.Q) && !_jumping && !_kicking)
         {
             Stop();
             _punching = true;
         }
         // kicking
-        if (Input.GetKeyDown(KeyCode.W) && _jumping == false && _punching == false) 
+        if (Input.GetKeyDown(KeyCode.W) && !_jumping && !_punching) 
         {
             Stop();
             _kicking = true;
         }
 
-        // UI
-        //canvas.GetComponent<SliderJoint2D>();
+        UpdateHealth();
+    }
+    void FixedUpdate()
+    {
+        if (_jumping) 
+        {
+            if (_jumped)
+            {
+                _jumped = false;
+                _jumping = false;
 
+                mover.setAgent(true);
+                Stop();
+                _newPos = _curPos = transform.position;
+
+            }
+            else
+            {
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 100, mask))
+                {
+                    _jumpPos = hit.point;
+                }
+
+                _jumped = true;
+
+                mover.setAgent(false);
+
+                float maxDist = 5f;
+
+                float dist = Mathf.Sqrt(Mathf.Pow((_jumpPos.x - transform.position.x), 2f) + Mathf.Pow((_jumpPos.z - transform.position.z), 2f));
+
+                dist = dist > maxDist ? maxDist : dist;
+
+                Vector3 direction = (_jumpPos - transform.position).normalized * dist;
+
+                transform.position += direction;
+
+                Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 1);
+
+                //Vector3 jump = new Vector3(0f, 0f, 0f);
+                //rb.AddForce(Vector3.up * 3f, ForceMode.Impulse);
+            }
+        }
     }
     void LateUpdate()
     {
 
         // ---- Checking for movement -----
-
-        _walking = (_newPos.x != _curPos.x) && (_newPos.z != _curPos.z);
-
-        if (_jumping) // **still not working
+        if (!_jumping)
         {
-            rb.AddForce(Vector3.up * 15f);
+            _walking = (_newPos.x != _curPos.x) && (_newPos.z != _curPos.z);
         }
 
         // If we press left mouse
@@ -138,6 +177,14 @@ public class PlayerController : MonoBehaviour
     }
     
     // ------- Interactions ------------
+    public int getDamage()
+    {
+        return 10; // temp
+    }
+    public void takeDamage(int x)
+    {
+        _health -= x;
+    }
     void SetFocus(Inter newFocus)
     {
         // If our focus has changed
@@ -162,12 +209,11 @@ public class PlayerController : MonoBehaviour
         focus = null;
         mover.StopFollowing();
     }
-
     void UpdateHealth()
     {
-
+        int hp = (int)((100) * _health / _maxHealth);
+        healthSlider.value = hp < 0 ? 0 : hp;
     }
-
     // ------ Movement ---------
     void Stop()
     {
@@ -209,5 +255,10 @@ public class PlayerController : MonoBehaviour
     }
     public void setJumping(bool b) {
         _jumping = b;
+    }
+    private void OnDrawGizmos()
+    {
+
+
     }
 }

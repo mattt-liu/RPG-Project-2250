@@ -16,17 +16,19 @@ public class PlayerMovement : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
     }
+    public void setAgent(bool b)
+    {
+        agent.enabled = b;
+    }
     public void MoveToPoint(Vector3 point)
     {
         agent.isStopped = false;
         agent.SetDestination(point);
     }
-
     public void StopMoving()
     {
         agent.isStopped = true;
     }
-
     public void Follow(Inter newTarget)
     {
         agent.stoppingDistance = newTarget.radius * .5f;
@@ -34,8 +36,6 @@ public class PlayerMovement : MonoBehaviour
 
         target = newTarget.interactionTransform;
     }
-
-    // Stop following a target
     public void StopFollowing()
     {
         agent.stoppingDistance = 0f;
