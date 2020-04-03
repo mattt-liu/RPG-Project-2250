@@ -1,6 +1,4 @@
-/**
- *	7/8/2013
- */
+
 #define PRO
 
 using UnityEngine;

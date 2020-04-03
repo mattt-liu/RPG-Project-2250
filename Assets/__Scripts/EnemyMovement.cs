@@ -30,7 +30,7 @@ public class EnemyMovement : MonoBehaviour
     private bool _dead = false;
     private bool _dying = false;
 
-
+    public GameObject player;
     Transform target;
     NavMeshAgent agent;
 
@@ -38,7 +38,7 @@ public class EnemyMovement : MonoBehaviour
     {
         _healthBar = healthBar.GetComponent<health2>();
         _health =  _healthBar.health = maxHealth;
-        target = PlayerManager.instance.player.transform;
+        target = player.transform;
         agent = GetComponent<NavMeshAgent>();
     }
     void Update()

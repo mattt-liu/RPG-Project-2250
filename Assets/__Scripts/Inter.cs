@@ -1,15 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
+/*	
+	This component is for all objects that the player can
+	interact with such as enemies, items etc. It is meant
+	to be used as a base class.
+*/
 
 public class Inter : MonoBehaviour
 {
-    public float radius = 3f;
 
+	public float radius = 3f;               // How close do we need to be to interact?
 	public Transform interactionTransform;  // The transform from where we interact in case you want to offset it
 
 	bool isFocus = false;   // Is this interactable currently being focused?
-	Transform player;       // Reference to the player transform
+	public GameObject player;       // Reference to the player transform
 
 	bool hasInteracted = false; // Have we already interacted with the object?
 
@@ -26,7 +30,7 @@ public class Inter : MonoBehaviour
 		if (isFocus && !hasInteracted)
 		{
 			// If we are close enough
-			float distance = Vector3.Distance(player.position, interactionTransform.position);
+			float distance = Vector3.Distance(player.transform.position, interactionTransform.position);
 			if (distance <= radius)
 			{
 				// Interact with the object
@@ -40,7 +44,7 @@ public class Inter : MonoBehaviour
 	public void OnFocused(Transform playerTransform)
 	{
 		isFocus = true;
-		player = playerTransform;
+		//player.transform = playerTransform;
 		hasInteracted = false;
 	}
 
@@ -52,22 +56,14 @@ public class Inter : MonoBehaviour
 		hasInteracted = false;
 	}
 
-
-
-
-
-
-
+	// Draw our radius in the editor
 	void OnDrawGizmosSelected()
-    {
-
-        if(interactionTransform==null)
-        {
+	{
+		if (interactionTransform == null)
 			interactionTransform = transform;
 
-		}
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, radius);
-    }
-    
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere(interactionTransform.position, radius);
+	}
+
 }

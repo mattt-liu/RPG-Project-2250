@@ -40,23 +40,24 @@ public class LevelUp : MonoBehaviour
     void levelup()
     {
         
-        for (n=-3; n<level; n++ )
-        {
+        //for (n=0; n<level; n++ )
+       // {
             LeftShoulder.transform.localScale += new Vector3(.2f, .2f, .2f);
             RightShoulder.transform.localScale += new Vector3(.2f, .2f, .2f);
             LeftUppersArm.transform.localScale += new Vector3(.15f, -0.15f, .15f);
             RightUpperArm.transform.localScale += new Vector3(.15f, -0.15f, .15f);
-            LeftLowerArm.transform.localScale += new Vector3(-0.1f, -0.1f, -0.1f);
-            RightLowerArm.transform.localScale += new Vector3(-0.1f, -0.1f, -0.1f);
+            //LeftLowerArm.transform.localScale += new Vector3(-0.1f, -0.1f, -0.1f);
+            //RightLowerArm.transform.localScale += new Vector3(-0.1f, -0.1f, -0.1f);
             UpperLegRight.transform.localScale += new Vector3(.15f, 0.15f, .15f);
             LowerLegRight.transform.localScale += new Vector3(.15f, 0.15f, .15f);
             UpperLegLeft.transform.localScale += new Vector3(.15f, 0.15f, .15f);
             LowerLegLeft.transform.localScale += new Vector3(.15f, 0.15f, .15f);
             Body.transform.localScale += new Vector3(0.2f, 0f, 0f);
-            Head.transform.localScale += new Vector3(-0.15f, 0f, -0.1f);
+            Head.transform.localScale += new Vector3(-0.1f, 0f, -0.1f);
 
 
-        }
+        // }
+        player.dmgLevelUp();
 
 
 

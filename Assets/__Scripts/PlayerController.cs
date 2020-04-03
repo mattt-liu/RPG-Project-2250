@@ -9,12 +9,14 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public LayerMask mask;
     public LayerMask enemyMask;
-    public LayerMask pause;
+    public LayerMask UIMask;
     public Camera cam;
     public PlayerMovement mover;
 
     [Header("Selection")]
     public Inter focus;
+    public bool hasTarget = false;
+    public bool targeted = false;
 
     [Header("Game Content")]
     public GameObject healthBar;
@@ -116,12 +118,6 @@ public class PlayerController : MonoBehaviour
                     mover.MoveToPoint(_newPos);
                     _target = null;
                 }
-                if (Physics.Raycast(ray, out hit, 100, enemyMask)) // clicked on enemy
-                {
-                    _walkingToEnemy = true;
-                    _newPos = hit.point;
-                    mover.MoveToPoint(_newPos);
-                }
             }
             // jumping
             if (Input.GetKeyDown(KeyCode.Space))
@@ -152,6 +148,7 @@ public class PlayerController : MonoBehaviour
         }
     // ---- Check stats ----
         UpdateHealth();
+        UpdateXp();
     // ---- kill target ----
         if (_target != null && _target.getDying())
         {
@@ -219,7 +216,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // ---- ability cooldowns ----
-        if (_punched)
+        if (_punched && _canKick)
         {
             _canPunch = false;
             StartCoroutine(punchCooldown(1 / punchSpeed));
@@ -233,7 +230,7 @@ public class PlayerController : MonoBehaviour
             _punchCD.StartCooldown();
 
         }
-        if (_kicked)
+        if (_kicked && _canPunch)
         {
             _canKick = false;
             StartCoroutine(kickCooldown(1 / kickSpeed));
@@ -252,7 +249,18 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-// ------- INTERACTIONS ------------
+    // ------- INTERACTIONS ------------
+
+    void OnTriggerEnter(Collider other)
+    // pickup
+    {
+        if (other.gameObject.CompareTag("itemPickup"))
+        {
+            other.gameObject.SetActive(false);
+            _xp += other.GetComponent<ItemPickup>().xpPoints;
+            _health += other.GetComponent<ItemPickup>().hpPoints;
+        }
+    }
     public bool WalkingToEnemy
     {
         set { _walkingToEnemy = value; }
@@ -275,6 +283,19 @@ public class PlayerController : MonoBehaviour
     public void Target(EnemyMovement enemy)
     {
         _target = enemy;
+        FaceTarget(enemy.transform.position);
+        if (targeted)
+        {
+            StopWalking();
+            targeted = false;
+        }
+    }
+    private void FaceTarget(Vector3 pos)
+    {
+
+        Vector3 direction = (pos - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 1f);
     }
     public int getPunchDamage()
     {
@@ -287,6 +308,10 @@ public class PlayerController : MonoBehaviour
     public void takeDamage(int x)
     {
         _health -= x;
+    }
+    public void getHealth(int x)
+    {
+        _health += x;
     }
     void SetFocus(Inter newFocus)
     {
@@ -317,7 +342,20 @@ public class PlayerController : MonoBehaviour
         int hp = (int)((100) * _health / _maxHealth);
         healthSlider.value = hp < 0 ? 0 : hp;
     }
+    void UpdateXp()
+    {
+        xpSlider.value = _xp;
+        if (_xp >= 100)
+        {
+            BodyLevelUp = true;
+            _xp = 0;
+        }
+    }
     // ------ MOVEMENT ---------
+    public Vector3 getCurpos()
+    {
+        return _curPos;
+    }
     void StopWalking()
     {
         _newPos = _curPos;
@@ -400,5 +438,10 @@ public class PlayerController : MonoBehaviour
     {
         get { return _bodyLevelUp; }
         set { _bodyLevelUp = value; }
+    }
+    public void dmgLevelUp()
+    {
+        punchDamage += 10;
+        kickDamage += 15;
     }
 }

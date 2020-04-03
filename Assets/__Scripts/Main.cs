@@ -9,17 +9,20 @@ public class Main : MonoBehaviour
     private LightController[] lightControllers;
 
     [Header("Enemy")]
-    public GameObject[] enemies;
+    public GameObject[] es;
+    public ArrayList enemies = new ArrayList();
 
     [Header("Player")]
     public PlayerController player;
+    public float targetRadius = 3f;
 
     [Header("Level Doors")]
     public GameObject[] doors;
 
-    private EnemyMovement[] enemyMovements;
+    private ArrayList enemyMovements;
 
     private int _currentLevel;
+    private bool gameOver = false;
 
     void Start()
     {
@@ -27,11 +30,15 @@ public class Main : MonoBehaviour
         player.currentLevel = _currentLevel;
 
         // get enemy scripts
-        enemyMovements = new EnemyMovement[enemies.Length];
-        for (int i = 0; i < enemyMovements.Length; i++)
+        for (int i = 0; i < es.Length; i ++)
         {
-            GameObject e = enemies[i];
-            enemyMovements[i] = e.GetComponentInChildren<EnemyMovement>();
+            enemies.Add(es[i]);
+        }
+        enemyMovements = new ArrayList();
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            GameObject e = (GameObject)enemies[i];
+            enemyMovements.Add(e.GetComponentInChildren<EnemyMovement>());
         }
 
         // set lights
@@ -71,50 +78,69 @@ public class Main : MonoBehaviour
             }
         }
         // enemy death
-        for (int i = 0; i < enemies.Length; i ++)
+        for (int i = 0; i < enemies.Count; i ++)
         {
-            if (enemyMovements[i].getDead())
+            EnemyMovement e = ((EnemyMovement)enemyMovements[i]);
+            if (e.getDead())
             {
-                enemies[i].SetActive(false);
+                ((GameObject)enemies[i]).SetActive(false);
+                enemies.RemoveAt(i);
+                enemyMovements.RemoveAt(i);
+                break;
             }
         }
+        if (enemies.Count == 0)
+        {
+            gameOver = true;
+        }
         // determine player's target
-        if (player.WalkingToEnemy && !player.SetTarget)
-        {
-            SetPlayerTarget();
-            player.SetTarget = true;
-        }
-        if (!player.WalkingToEnemy && player.SetTarget)
-        {
-            player.SetTarget = false;
-        }
+        SetPlayerTarget();
         // player progress
         if (player.LevelUp)
         {
             LevelUp();
         }
-
+        // open doors
+        if (_currentLevel > 1)
+        {
+            for (int i = 0; i < _currentLevel - 1; i ++)
+            {
+                doors[i].SetActive(false);
+            }
+        }
+        // lights
+        UpdateLight();
     }
     private void SetPlayerTarget()
     {
-        // target enemy is closest one to clicked point
-        Vector3 targetPos = player.getTarget(); // gets the clicked pos player is walking to
 
-        // set target
-        int targetIndex = Closest(targetPos, enemies);  // gets the index 
-        player.Target(enemyMovements[targetIndex]);
+            // target enemy is closest one to current pos
+            Vector3 curpos = player.getCurpos(); // gets the clicked pos player is walking to
+
+            // find closest target
+            int targetIndex = Closest(curpos, enemies);  // gets the index 
+            if (Vector3.Distance(curpos, ((GameObject)enemies[targetIndex]).transform.position) <= targetRadius && !player.targeted)
+            {
+                player.targeted = true;
+                player.Target((EnemyMovement)(enemyMovements[targetIndex])); //can only target inside radius
+            }
+        
+        else
+        {
+            player.targeted = false;
+        }
 
     }
-    private int Closest(Vector3 pos, GameObject[] y)
+    private int Closest(Vector3 pos, ArrayList y)
     {
         // finds the index of closest GameObject y to pos
 
         int minIndex = 0;
-        float min = Vector3.Distance(pos, y[minIndex].transform.position);
+        float min = Vector3.Distance(pos, ((GameObject)(y[minIndex])).transform.position);
 
-        for (int i = 0; i < y.Length; i ++)
+        for (int i = 0; i < y.Count; i ++)
         {
-            float dist = Vector3.Distance(pos, y[i].transform.position);
+            float dist = Vector3.Distance(pos, ((GameObject)(y[i])).transform.position);
             if (dist < min)
             {
                 min = dist;
@@ -134,5 +160,10 @@ public class Main : MonoBehaviour
     {
         _currentLevel ++;
         player.currentLevel++;
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, targetRadius);
     }
 }

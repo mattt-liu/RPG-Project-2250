@@ -18,7 +18,7 @@ public class health2 : MonoBehaviour
     {
 
         damageAnim = damageText.GetComponent<Animator>();
-
+        health = GetComponentInParent<EnemyMovement>().maxHealth;
         healthBar.value = health;
         healthBar.maxValue = health;
 
