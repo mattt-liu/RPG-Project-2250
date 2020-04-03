@@ -29,7 +29,6 @@ public class Walking : MonoBehaviour
         if (playerController.getJumping())
         {
             animator.SetBool("isJumping", true);
-
         } 
         else
         {
@@ -39,7 +38,8 @@ public class Walking : MonoBehaviour
         {
             animator.SetBool("isPunching", true);
         }
-        else {
+        else 
+        {
             animator.SetBool("isPunching", false);
         }
         if (playerController.getKicking())

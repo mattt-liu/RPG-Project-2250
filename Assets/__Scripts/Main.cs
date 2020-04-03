@@ -43,11 +43,64 @@ public class Main : MonoBehaviour
         foreach( EnemyMovement enemy in enemyMovements) {
             if (enemy.getAttacking())
             {
+          
                 int dmg = enemy.getDamage();
-                player.takeDamage(dmg);
                 enemy.setAttacking(false);
+
+                player.takeDamage(dmg);
+                    
+                if (player.getPunched())
+                {
+                    enemy.takeDamage(player.getPunchDamage());
+                    player.setPunched(false);
+                }
+                if (player.getKicked())
+                {
+                    enemy.takeDamage(player.getKickDamage());
+                    player.setKicked(false);
+                }
             }
         }
+        // determine player's target
+        if (player.WalkingToEnemy && !player.SetTarget)
+        {
+            SetPlayerTarget();
+            player.SetTarget = true;
+        }
+        if (!player.WalkingToEnemy && player.SetTarget)
+        {
+            player.SetTarget = false;
+        }
+
+    }
+    private void SetPlayerTarget()
+    {
+        // target enemy is closest one to clicked point
+        Vector3 targetPos = player.getTarget(); // gets the clicked pos player is walking to
+
+        // set target
+        int targetIndex = Closest(targetPos, enemies);  // gets the index 
+        player.Target(enemyMovements[targetIndex]);
+
+    }
+    private int Closest(Vector3 pos, GameObject[] y)
+    {
+        // finds the index of closest GameObject y to pos
+
+        int minIndex = 0;
+        float min = Vector3.Distance(pos, y[minIndex].transform.position);
+
+        for (int i = 0; i < y.Length; i ++)
+        {
+            float dist = Vector3.Distance(pos, y[i].transform.position);
+            if (dist < min)
+            {
+                min = dist;
+                minIndex = i;
+            }
+        }
+        return minIndex;
+        
     }
     private void UpdateLight()
     {

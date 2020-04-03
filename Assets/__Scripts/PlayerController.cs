@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Movement")]
     public LayerMask mask;
+    public LayerMask enemyMask;
     public Camera cam;
     public PlayerMovement mover;
     public Rigidbody rb;
@@ -40,16 +41,21 @@ public class PlayerController : MonoBehaviour
     private Vector3 _newPos;
     private Vector3 _dashPos;
     private bool _walking = false;
+    private bool _walkingToEnemy = false;
     private bool _jumping = false;
     private bool _dashing = false;
     private bool _dashed = false;
     private bool _punching = false;
     private bool _kicking = false;
+    private EnemyMovement _target;
+    private bool _setTarget = false;
 
     // ability cooldowns
     private bool _punched = false;
+    private bool _punchedEnemy = false;
     private bool _canPunch = true;
     private bool _kicked = false;
+    private bool _kickedEnemy = false;
     private bool _canKick = true;
       
 
@@ -78,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-    // -------- Moving player ---------
+    // ---- Moving player -----
         _curPos = transform.position;
         
         // only allow for 1 action at a time
@@ -90,8 +96,15 @@ public class PlayerController : MonoBehaviour
                 Ray ray = cam.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
 
-                if (Physics.Raycast(ray, out hit, 100, mask))
+                if (Physics.Raycast(ray, out hit, 100, mask)) // clicked on floor
                 {
+                    _newPos = hit.point;
+                    mover.MoveToPoint(_newPos);
+                    _target = null;
+                }
+                if (Physics.Raycast(ray, out hit, 100, enemyMask)) // clicked on enemy
+                {
+                    _walkingToEnemy = true;
                     _newPos = hit.point;
                     mover.MoveToPoint(_newPos);
                 }
@@ -99,32 +112,31 @@ public class PlayerController : MonoBehaviour
             // jumping
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Stop();
+                StopWalking();
                 _jumping = true;
             }
             // punching
             if (_canPunch && Input.GetKeyDown(KeyCode.Q))
             {
-                Stop();
+                StopWalking();
                 _punching = true;
                 _punched = true;
             }
             // kicking
             if (_canKick && Input.GetKeyDown(KeyCode.W))
             {
-                Stop();
+                StopWalking();
                 _kicking = true;
                 _kicked = true;
             }
             //dashing
             if (Input.GetKeyDown(KeyCode.E))
             {
-                Stop();
+                StopWalking();
                 _dashing = true;
             }
         }
-
-    // -------- Check stats --------
+    // ---- Check stats ----
         UpdateHealth();
     }
     void FixedUpdate()
@@ -137,7 +149,7 @@ public class PlayerController : MonoBehaviour
                 _dashing = false;
 
                 mover.setAgent(true);
-                Stop();
+                StopWalking();
                 _newPos = _curPos = transform.position;
 
             }
@@ -185,21 +197,61 @@ public class PlayerController : MonoBehaviour
         if (_punched)
         {
             _canPunch = false;
-            _punched = false;
             StartCoroutine(punchCooldown(1 / punchSpeed));
+            _punched = false;
+            if (_target != null)
+            {
+                _punchedEnemy = true;
+            }
         }
         if (_kicked)
         {
             _canKick = false;
-            _kicked = false;
             StartCoroutine(kickCooldown(1 / kickSpeed));
+            _kicked = false;
+            if (_target != null)
+            {
+                _kickedEnemy = true;
+            }
+        }
+        // ---- target enemy ----
+        if (_walkingToEnemy && _setTarget)
+        {
+            CheckTarget();
         }
     }
-    
-    // ------- Interactions ------------
-    public int getDamage()
+
+// ------- INTERACTIONS ------------
+    public bool WalkingToEnemy
     {
-        return 10; // temp
+        set { _walkingToEnemy = value; }
+        get { return _walkingToEnemy; }
+    }
+    public bool SetTarget
+    {
+        get { return _setTarget; }
+        set { _setTarget = value;  }
+    }
+    private void CheckTarget()
+    {
+        float dist = Vector3.Distance(_target.transform.position, transform.position);
+        if (dist <= _target.lookRadius)
+        {
+            StopWalking();
+            _walkingToEnemy = false;
+        }
+    }
+    public void Target(EnemyMovement enemy)
+    {
+        _target = enemy;
+    }
+    public int getPunchDamage()
+    {
+        return punchDamage;
+    }
+    public int getKickDamage()
+    {
+        return kickDamage;
     }
     public void takeDamage(int x)
     {
@@ -234,8 +286,8 @@ public class PlayerController : MonoBehaviour
         int hp = (int)((100) * _health / _maxHealth);
         healthSlider.value = hp < 0 ? 0 : hp;
     }
-    // ------ Movement ---------
-    void Stop()
+    // ------ MOVEMENT ---------
+    void StopWalking()
     {
         _newPos = _curPos;
 
@@ -253,6 +305,11 @@ public class PlayerController : MonoBehaviour
     {
         _walking = b;
     }
+    public Vector3 getTarget()
+    {
+        return _newPos;
+    }
+    // -------- COMBAT --------
     public bool getJumping()
     {
         return _jumping;
@@ -276,7 +333,22 @@ public class PlayerController : MonoBehaviour
     public void setJumping(bool b) {
         _jumping = b;
     }
-
+    public bool getPunched()
+    {
+        return _punched;
+    }
+    public void setPunched(bool b)
+    {
+        _punched = b;
+    }
+    public bool getKicked()
+    {
+        return _kicked;
+    }
+    public void setKicked(bool b)
+    {
+        _kicked = b;
+    }
     private IEnumerator punchCooldown(float seconds)
     {
         yield return new WaitForSeconds(seconds);

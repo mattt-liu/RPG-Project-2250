@@ -9,12 +9,25 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Stats")]
     public float attackSpeed = 0.25f;
-    public int _health = 100;
-    public int _damage = 10;
+    public int maxHealth = 100;
+    public int damage = 10;
+
+    [Header("HealthBar")]
+    public GameObject healthBar;
+
+    private int _health;
+
+    private float _maxHealthBarSize;
+    private float _hpBarX;
+    private float _hpBarY;
+    private float _hpBarZ;
 
     private bool _attacked = false;
     private bool _attacking = false;
     private bool _walking = false;
+
+    private bool _dead = false;
+    private bool _dying = false;
 
 
     Transform target;
@@ -22,6 +35,10 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
+        _health = maxHealth;
+        _hpBarX = _maxHealthBarSize = healthBar.transform.localScale.x;
+        _hpBarY = healthBar.transform.localScale.y;
+        _hpBarZ = healthBar.transform.localScale.z;
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
     }
@@ -29,6 +46,7 @@ public class EnemyMovement : MonoBehaviour
     {
         float distance = Vector3.Distance(target.position, transform.position);
 
+        // check player dist
         if (distance <= lookRadius)
         {
             setWalking(true);
@@ -38,6 +56,7 @@ public class EnemyMovement : MonoBehaviour
             if (distance <= agent.stoppingDistance)
             {
                 // Attack the target
+                setWalking(false);
                 FaceTarget();    // Face the target
                 if (!_attacked)
                 {
@@ -47,16 +66,35 @@ public class EnemyMovement : MonoBehaviour
             }
             else
             {
+                setWalking(true);
                 _attacking = false;
+                _attacked = false;
             }
         }
         else
         {
-            setWalking(false);
+                setWalking(false);
         }
+
+        // health bar
+        RotateHealthBar();
+        UpdateHealthBar();
     }
 
     // ----------------
+    void UpdateHealthBar()
+    {
+        _hpBarX = _maxHealthBarSize * _health / maxHealth;
+        healthBar.transform.localScale = new Vector3(_hpBarX, _hpBarY, _hpBarZ);
+    }
+    void RotateHealthBar()
+    {
+        float x = transform.rotation.x;
+        float z = transform.rotation.z;
+        Quaternion barRotation = Quaternion.LookRotation(new Vector3(x, 0.01f, z));
+        healthBar.transform.rotation = barRotation;
+
+    }
     void FaceTarget()
     {
         Vector3 direction = (target.position - transform.position).normalized;
@@ -65,7 +103,7 @@ public class EnemyMovement : MonoBehaviour
     }
     public int getDamage()
     {
-        return _damage;
+        return damage;
     }
     public void takeDamage(int dmg)
     {
@@ -102,5 +140,7 @@ public class EnemyMovement : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, lookRadius);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, 2f);
     }
 }
