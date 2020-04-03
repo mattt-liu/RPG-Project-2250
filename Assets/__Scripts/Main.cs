@@ -13,6 +13,9 @@ public class Main : MonoBehaviour
     [Header("Player")]
     public PlayerController player;
 
+    [Header("Level Doors")]
+    public GameObject[] doors;
+
     private EnemyMovement[] enemyMovements;
 
     private int _currentLevel;

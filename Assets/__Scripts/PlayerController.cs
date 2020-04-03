@@ -215,7 +215,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         // ---- target enemy ----
-        if (_walkingToEnemy && _setTarget)
+        if (_walkingToEnemy && _setTarget && _target != null)
         {
             CheckTarget();
         }

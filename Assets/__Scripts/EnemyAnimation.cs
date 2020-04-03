@@ -27,10 +27,24 @@ public class EnemyAnimation : MonoBehaviour
         {
             animator.SetBool("isWalking", false);
         }
+        if (enemyController.getAttacking())
+        {
+            animator.SetBool("isAttacking", true);
+
+        }
+        else
+        {
+            animator.SetBool("isAttacking", false);
+        }
     }
     public void StopWalking()
     {
         animator.SetBool("isWalking", false);
         enemyController.setWalking(false);
+    }
+    public void StopAttacking()
+    {
+        animator.SetBool("isAttacking", false);
+        enemyController.setAttacking(false);
     }
 }
