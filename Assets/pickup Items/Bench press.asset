@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45a39482c8bfa4d188045f9137d356b9, type: 3}
-  m_Name: Test Item
+  m_Name: Bench press
   m_EditorClassIdentifier: 
-  name: Protein Shake
-  icon: {fileID: 0}
+  name: New Item
+  icon: {fileID: 21300000, guid: 9ef80392bba82405394eca85328c4d7c, type: 3}
   isDefaultItem: 0
