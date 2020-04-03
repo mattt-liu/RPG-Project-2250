@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     public LayerMask mask;
     public LayerMask enemyMask;
+    public LayerMask pause;
     public Camera cam;
     public PlayerMovement mover;
     public Rigidbody rb;
@@ -28,6 +29,10 @@ public class PlayerController : MonoBehaviour
     public int punchDamage = 10;
     public float kickSpeed = 0.25f;
     public float punchSpeed = 0.75f;
+
+    [Header("Cooldown Bars")]
+    public GameObject punchCD;
+    public GameObject kickCD;
 
     //stats
     private int _maxHealth;
@@ -52,11 +57,13 @@ public class PlayerController : MonoBehaviour
 
     // ability cooldowns
     private bool _punched = false;
-    private bool _punchedEnemy = false;
+    private bool _punchedEnemy = false; // fix refernce in setter and getter
     private bool _canPunch = true;
     private bool _kicked = false;
     private bool _kickedEnemy = false;
     private bool _canKick = true;
+    private CooldownController _punchCD;
+    private CooldownController _kickCD;
       
 
     void Start()
@@ -80,6 +87,13 @@ public class PlayerController : MonoBehaviour
 
         healthSlider.value = 100;
         xpSlider.value = 0;
+
+        // ability cooldowns
+        _punchCD = punchCD.GetComponent<CooldownController>();
+        _kickCD = kickCD.GetComponent<CooldownController>();
+
+        _punchCD.cooldown = 1f / punchSpeed;
+        _kickCD.cooldown = 1f / kickSpeed;
     }
 
     void Update()
@@ -203,6 +217,9 @@ public class PlayerController : MonoBehaviour
             {
                 _punchedEnemy = true;
             }
+
+            // ui
+            _punchCD.StartCooldown();
         }
         if (_kicked)
         {
@@ -213,6 +230,8 @@ public class PlayerController : MonoBehaviour
             {
                 _kickedEnemy = true;
             }
+            // ui
+            _kickCD.StartCooldown();
         }
         // ---- target enemy ----
         if (_walkingToEnemy && _setTarget && _target != null)
