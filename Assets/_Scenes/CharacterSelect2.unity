@@ -255,63 +255,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &343863778
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 891463505}
-    m_Modifications:
-    - target: {fileID: 100008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_Name
-      value: Casual_Male
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -20
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 5.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 16
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 80817e6a19c6142b29aabfa24e966bf3, type: 3}
 --- !u!1 &451748283
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,12 +552,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 690549080}
   m_CullTransparentMesh: 0
---- !u!4 &775514955 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400008, guid: 80817e6a19c6142b29aabfa24e966bf3,
-    type: 3}
-  m_PrefabInstance: {fileID: 343863778}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &862526734
 GameObject:
   m_ObjectHideFlags: 0
@@ -699,7 +636,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 891463505}
-  - component: {fileID: 891463506}
   - component: {fileID: 891463504}
   m_Layer: 0
   m_Name: CharacterList
@@ -734,29 +670,11 @@ Transform:
   - {fileID: 537557622}
   - {fileID: 1610404286}
   - {fileID: 1693264530}
-  - {fileID: 775514955}
   - {fileID: 1473693963}
   - {fileID: 1735581269}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
---- !u!114 &891463506
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 891463503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f89f0b45796d34987fc88ed9692111, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CharacterType: 
-  Name: 
-  health: 0
-  strength: 0
-  speed: 0
 --- !u!1 &1236282142
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,7 +754,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 891463504}
         m_MethodName: ConfirmButton
         m_Mode: 1
         m_Arguments:
@@ -1272,6 +1190,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kimono_Male (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 100032, guid: e4899b03e5ec544fbace7d2d54c48d9a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400032, guid: e4899b03e5ec544fbace7d2d54c48d9a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -20
@@ -1302,7 +1224,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400032, guid: e4899b03e5ec544fbace7d2d54c48d9a, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 400032, guid: e4899b03e5ec544fbace7d2d54c48d9a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1403,7 +1325,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 891463504}
         m_MethodName: ToggleLeft
         m_Mode: 1
         m_Arguments:
@@ -1517,29 +1439,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1948245305 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100008, guid: 80817e6a19c6142b29aabfa24e966bf3,
-    type: 3}
-  m_PrefabInstance: {fileID: 343863778}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1948245306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948245305}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6f89f0b45796d34987fc88ed9692111, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CharacterType: 
-  Name: 
-  health: 0
-  strength: 0
-  speed: 0
 --- !u!1 &2022675794 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4635921371228938065, guid: f21b7fc20b523415b827ae62c237f7bb,
@@ -1665,7 +1564,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 891463504}
         m_MethodName: ToggleRight
         m_Mode: 1
         m_Arguments:
@@ -1722,6 +1621,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Knight_Male
+      objectReference: {fileID: 0}
+    - target: {fileID: 1183512910398363730, guid: 59b7a54bb11724621992385c055b1837,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1183512910398587954, guid: 59b7a54bb11724621992385c055b1837,
         type: 3}
@@ -1848,6 +1752,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ninja_Male
       objectReference: {fileID: 0}
+    - target: {fileID: 2560261988834278833, guid: 4422a5cf91e144dc3b31ae7aae2d506e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3850959926459899475, guid: 4422a5cf91e144dc3b31ae7aae2d506e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4422a5cf91e144dc3b31ae7aae2d506e, type: 3}
@@ -1896,7 +1805,7 @@ PrefabInstance:
     - target: {fileID: 4635921371228636017, guid: f21b7fc20b523415b827ae62c237f7bb,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4635921371228636017, guid: f21b7fc20b523415b827ae62c237f7bb,
         type: 3}
@@ -1918,6 +1827,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BaseCharacter
       objectReference: {fileID: 0}
+    - target: {fileID: 4635921371228938065, guid: f21b7fc20b523415b827ae62c237f7bb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7633856173605039557, guid: f21b7fc20b523415b827ae62c237f7bb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f21b7fc20b523415b827ae62c237f7bb, type: 3}
@@ -1932,6 +1846,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Soldier_Male
+      objectReference: {fileID: 0}
+    - target: {fileID: 9078782886255592830, guid: 295345a24e3be4f649f3a4e5dd027eaf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9078782886255958302, guid: 295345a24e3be4f649f3a4e5dd027eaf,
         type: 3}

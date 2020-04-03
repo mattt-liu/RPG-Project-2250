@@ -54,6 +54,8 @@ public class CharacterSelection : MonoBehaviour
     {
         PlayerPrefs.SetInt("CharacterSelected", index);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
+        Debug.Log(PlayerPrefs.GetInt("CharacterSelected"));
     }
 }
 

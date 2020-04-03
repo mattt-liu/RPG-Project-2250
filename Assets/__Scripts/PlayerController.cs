@@ -12,8 +12,6 @@ public class PlayerController : MonoBehaviour
     public LayerMask pause;
     public Camera cam;
     public PlayerMovement mover;
-    public Rigidbody rb;
-    public CharacterController controller;
 
     [Header("Selection")]
     public Inter focus;

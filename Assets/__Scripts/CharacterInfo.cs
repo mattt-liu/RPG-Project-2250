@@ -6,7 +6,7 @@ public class CharacterInfo : MonoBehaviour
 {
     public string CharacterType;
 
-    [HideInInspector]
+    [Header("Stats")]
     public string Name;
 
     public int health;
