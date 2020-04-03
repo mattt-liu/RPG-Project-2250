@@ -38,6 +38,8 @@ public class PlayerController : MonoBehaviour
     private int _xp;
     Slider healthSlider;
     Slider xpSlider;
+    private bool _levelUp = false;
+    private bool _bodyLevelUp = false;
 
     // movement
     private Vector3 _curPos;
@@ -55,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
     // ability cooldowns
     private bool _punched = false;
-    private bool _punchedEnemy = false; // fix refernce in setter and getter
+    private bool _punchedEnemy = false;
     private bool _canPunch = true;
     private bool _kicked = false;
     private bool _kickedEnemy = false;
@@ -150,6 +152,17 @@ public class PlayerController : MonoBehaviour
         }
     // ---- Check stats ----
         UpdateHealth();
+    // ---- kill target ----
+        if (_target != null && _target.getDying())
+        {
+            LevelUp = true;
+            BodyLevelUp = true;
+            _target.setDying(false);
+        }
+        else
+        {
+            LevelUp = false;
+        }
     }
     void FixedUpdate()
     {
@@ -205,7 +218,7 @@ public class PlayerController : MonoBehaviour
             _walking = (_newPos.x != _curPos.x) && (_newPos.z != _curPos.z);
         }
 
-        // ---- ability cooldowns
+        // ---- ability cooldowns ----
         if (_punched)
         {
             _canPunch = false;
@@ -218,6 +231,7 @@ public class PlayerController : MonoBehaviour
 
             // ui
             _punchCD.StartCooldown();
+
         }
         if (_kicked)
         {
@@ -352,19 +366,19 @@ public class PlayerController : MonoBehaviour
     }
     public bool getPunched()
     {
-        return _punched;
+        return _punchedEnemy;
     }
     public void setPunched(bool b)
     {
-        _punched = b;
+        _punchedEnemy = b;
     }
     public bool getKicked()
     {
-        return _kicked;
+        return _kickedEnemy;
     }
     public void setKicked(bool b)
     {
-        _kicked = b;
+        _kickedEnemy = b;
     }
     private IEnumerator punchCooldown(float seconds)
     {
@@ -375,5 +389,16 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(seconds);
         _canKick = true;
+    }
+    // stats
+    public bool LevelUp
+    {
+        get { return _levelUp; }
+        set { _levelUp = value; }
+    }
+    public bool BodyLevelUp
+    {
+        get { return _bodyLevelUp; }
+        set { _bodyLevelUp = value; }
     }
 }

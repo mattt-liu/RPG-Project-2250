@@ -14,6 +14,7 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("HealthBar")]
     public GameObject healthBar;
+    private health2 _healthBar;
 
     private int _health;
 
@@ -35,10 +36,8 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
-        _health = maxHealth;
-        _hpBarX = _maxHealthBarSize = healthBar.transform.localScale.x;
-        _hpBarY = healthBar.transform.localScale.y;
-        _hpBarZ = healthBar.transform.localScale.z;
+        _healthBar = healthBar.GetComponent<health2>();
+        _health =  _healthBar.health = maxHealth;
         target = PlayerManager.instance.player.transform;
         agent = GetComponent<NavMeshAgent>();
     }
@@ -77,23 +76,23 @@ public class EnemyMovement : MonoBehaviour
         }
 
         // health bar
-        RotateHealthBar();
+        UpdateHealth();
         UpdateHealthBar();
     }
 
     // ----------------
+    void UpdateHealth()
+    {
+        if(!_dead && _health <= 0)
+        {
+            _health = 0;
+            _dead = true;
+            _dying = true;
+        }
+    }
     void UpdateHealthBar()
     {
-        _hpBarX = _maxHealthBarSize * _health / maxHealth;
-        healthBar.transform.localScale = new Vector3(_hpBarX, _hpBarY, _hpBarZ);
-    }
-    void RotateHealthBar()
-    {
-        float x = transform.rotation.x;
-        float z = transform.rotation.z;
-        Quaternion barRotation = Quaternion.LookRotation(new Vector3(x, 0.01f, z));
-        healthBar.transform.rotation = barRotation;
-
+        _healthBar.health = _health;
     }
     void FaceTarget()
     {
@@ -108,6 +107,7 @@ public class EnemyMovement : MonoBehaviour
     public void takeDamage(int dmg)
     {
         _health -= dmg;
+        _healthBar.TakeDamage(dmg);
     }
     public bool getAttacking()
     {
@@ -124,6 +124,18 @@ public class EnemyMovement : MonoBehaviour
     public void setWalking(bool b)
     {
         _walking = b;   
+    }
+    public bool getDead()
+    {
+        return _dead;
+    }
+    public bool getDying()
+    {
+        return _dying;
+    }
+    public void setDying(bool b)
+    {
+        _dying = b;
     }
     private IEnumerator SetAttackTrue(float seconds)
     {

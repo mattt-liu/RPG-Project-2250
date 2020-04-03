@@ -22,30 +22,26 @@ public class health2 : MonoBehaviour
         healthBar.value = health;
         healthBar.maxValue = health;
 
-        healthText.text = health.ToString() + "%";
+        healthText.text = health.ToString();
 
-        InvokeRepeating("TakeDamage",1f, 5f);
-        
-
-
-        //TakeDamage();    <--- works once
+        //InvokeRepeating("TakeDamage",1f, 5f);
     }
 
 
-
-
-    void TakeDamage()
+    private void Update()
     {
-        Debug.Log("take damage executed");
-        int num = Random.Range(5, 20);
-        health -= num;
 
-
-        damageText.text = "-" + num.ToString();
-        damageAnim.SetTrigger("Show");
 
         healthBar.value = health;
         healthText.text = health.ToString();
+    }
+
+    public void TakeDamage(int num)
+    {
+        // only display
+
+        damageText.text = "-" + num.ToString();
+        damageAnim.SetTrigger("Show");
     }
 }
 

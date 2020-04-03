@@ -6,6 +6,7 @@ public class Main : MonoBehaviour
 {
     [Header("Level Lights")]
     public Light[] lights;
+    private LightController[] lightControllers;
 
     [Header("Enemy")]
     public GameObject[] enemies;
@@ -34,15 +35,20 @@ public class Main : MonoBehaviour
         }
 
         // set lights
-        foreach (Light l in lights)
+        lightControllers = new LightController[lights.Length];
+        for (int i = 0; i < lights.Length; i ++)
         {
-            l.intensity = 0;
+            Light l = lights[i];
+
+            lightControllers[i] = l.GetComponent<LightController>();
+            lightControllers[i].on = false;
         }
-        lights[0].intensity = LightController.defaultBrightness;
+        lightControllers[0].on = true;
     }
 
     void Update()
     {
+        // update enemy
         foreach( EnemyMovement enemy in enemyMovements) {
             if (enemy.getAttacking())
             {
@@ -64,6 +70,14 @@ public class Main : MonoBehaviour
                 }
             }
         }
+        // enemy death
+        for (int i = 0; i < enemies.Length; i ++)
+        {
+            if (enemyMovements[i].getDead())
+            {
+                enemies[i].SetActive(false);
+            }
+        }
         // determine player's target
         if (player.WalkingToEnemy && !player.SetTarget)
         {
@@ -73,6 +87,11 @@ public class Main : MonoBehaviour
         if (!player.WalkingToEnemy && player.SetTarget)
         {
             player.SetTarget = false;
+        }
+        // player progress
+        if (player.LevelUp)
+        {
+            LevelUp();
         }
 
     }
@@ -109,5 +128,11 @@ public class Main : MonoBehaviour
     {
         // change lighting
         lights[_currentLevel - 1].intensity = LightController.defaultBrightness;
+    }
+
+    private void LevelUp()
+    {
+        _currentLevel ++;
+        player.currentLevel++;
     }
 }

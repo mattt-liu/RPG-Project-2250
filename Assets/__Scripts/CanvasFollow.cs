@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class CanvasFollow : MonoBehaviour
 {
-    public Transform target;
+    public GameObject target;
+    private Transform _target;
 
     // Start is called before the first frame update
     void Start()
     {
-        target = GameObject.FindWithTag("Player").transform;   //NOT FindGameObjectWithTag 
+        _target = target.transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(target.position);
+        transform.LookAt(_target.position);
     }
 }
